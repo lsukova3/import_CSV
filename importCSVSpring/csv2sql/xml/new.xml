@@ -1,0 +1,24 @@
+<soubory>
+	<soubor>
+		<nazev></nazev>
+		<oddelovac></oddelovac>
+		<tabulka>
+			<schema></schema>
+			<nazev></nazev>
+			<primary_key></primary_key>
+			<tablespace></tablespace>
+			<sloupce>
+				<sloupec>
+					<nazev></nazev>
+					<datovy_typ></datovy_typ>
+					<delka></delka>
+					<maska></maska>
+					<not_null></not_null>
+					<check></check>
+					<default></default>
+					<polozka_souboru></polozka_souboru>
+				</sloupec>
+			</sloupce>
+		</tabulka>
+	</soubor>
+</soubory>
