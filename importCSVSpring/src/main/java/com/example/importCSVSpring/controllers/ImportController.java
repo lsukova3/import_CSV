@@ -19,10 +19,18 @@ public class ImportController {
     PersonService personService;
 
     @GetMapping("/index")
-    public String getPageImport(Model model){
-        List<AnImport> importList = importService.getList();
-        model.addAttribute("importList", importList);
-        model.addAttribute("totalRows", importList.size());
+    public String getPageImport(Model model, String keyword){;
+        if(keyword==null) {
+            List<AnImport> importList = importService.getList();
+            model.addAttribute("importList", importList);
+            model.addAttribute("totalRows", importList.size());
+        } else {
+            List<AnImport> importList = importList = importService.findByKeyword(keyword);
+            model.addAttribute("importList", importList);
+            model.addAttribute("totalRows", importList.size());
+
+        }
+
         return "index";
     }
 

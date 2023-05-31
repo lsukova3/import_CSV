@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Obsah souboru</title>
+    <title>[[${fileName}]]</title>
   <!--    Pro zajištění správného vykreslování a přiblížení dotykem na mobilu -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--    Include Bootstrap from a CDN stránka getbootstrap.com -->
@@ -18,10 +18,10 @@
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <h1>Obsah souboru</h1>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <h1>[[${fileName}]]</h1>
+    <form class="form-inline my-2 my-lg-0" th:action="@{'/detail/' + ${importId} + '/' + ${fileName}}" method="get">
+      <input id="txtSearch" name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search" /></button>
     </form>
   </nav>
   <table class="table table-hover table-striped table-advance">
@@ -64,7 +64,9 @@
     </tr>
     </tbody>
   </table>
-
+  <div class="text-center p-3">
+    Total Items: [[${totalItems}]]
+  </div>
 <!--  <nav aria-label="Page navigation example">-->
 <!--    Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]-->
 <!--    <br/>-->

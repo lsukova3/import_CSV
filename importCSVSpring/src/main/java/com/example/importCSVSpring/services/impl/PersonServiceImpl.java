@@ -12,7 +12,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -72,5 +71,21 @@ public class PersonServiceImpl implements PersonService {
         }
         return personList;
     }
+
+    @Override
+    public List<Person> findByImportId(Long idImport) {
+        return repository.findByImportId(idImport);
+    }
+
+    @Override
+    public List<Person> findByKeyword(String keyword) {
+        return repository.findByKeyword(keyword);
+    }
+
+    @Override
+    public List<Person> findByImportIdKeyword(Long idImport, String keyword) {
+        return repository.findByImportIdKeyword(idImport, keyword);
+    }
+
 
 }

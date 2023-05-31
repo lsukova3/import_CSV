@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Soubory</title>
     <!--    Pro zajištění správného vykreslování a přiblížení dotykem na mobilu -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--    Include Bootstrap from a CDN stránka getbootstrap.com -->
@@ -19,8 +19,8 @@
 <body>
  <nav class="navbar navbar-expand-lg navbar-light bg-light">
      <h1>Soubory</h1>
-     <form class="form-inline my-2 my-lg-0">
-         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+     <form class="form-inline my-2 my-lg-0" th:action="@{/index}" method="get">
+         <input id="txtSearch" name="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
          <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search"></span></button>
      </form>
  </nav>
@@ -40,7 +40,7 @@
          <td th:text="${import.fileName}"></td>
          <td th:text="${import.fileSize}"></td>
          <td th:text="${import.timestamp}"></td>
-         <td><a th:href="@{/detail}"><span class="glyphicon glyphicon-eye-open" title="view"/></a></td>
+         <td><a th:href="@{'/detail/' + ${import.importId} + '/' + ${import.fileName}} "><span class="glyphicon glyphicon-eye-open" title="view"/></a></td>
      </tr>
      </tbody>
  </table>

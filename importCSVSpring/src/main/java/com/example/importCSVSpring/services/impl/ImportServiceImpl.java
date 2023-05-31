@@ -1,6 +1,7 @@
 package com.example.importCSVSpring.services.impl;
 
 import com.example.importCSVSpring.model.AnImport;
+import com.example.importCSVSpring.model.Person;
 import com.example.importCSVSpring.repositories.ImportRepository;
 import com.example.importCSVSpring.services.ImportService;
 import com.example.importCSVSpring.services.PersonService;
@@ -59,6 +60,9 @@ public class ImportServiceImpl implements ImportService {
         return importList;
     }
 
-
+    @Override
+    public List<AnImport> findByKeyword(String keyword) {
+        return repository.findByKeyword(keyword);
+    }
 
 }
