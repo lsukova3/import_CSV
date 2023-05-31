@@ -21,22 +21,26 @@
      <h1>Soubory</h1>
      <form class="form-inline my-2 my-lg-0">
          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+         <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search"></span></button>
      </form>
  </nav>
  <table class="table table-hover table-striped table-condensed">
      <thead>
        <th>Id</th>
+       <th>Directory</th>
        <th>File</th>
+       <th>File Size(bytes)</th>
        <th>Timestamp</th>
        <th>View</th>
      </thead>
      <tbody>
      <tr th:each="import : ${importList}" >
          <td th:text="${import.importId}"></td>
+         <td th:text="${import.directory}"></td>
          <td th:text="${import.fileName}"></td>
+         <td th:text="${import.fileSize}"></td>
          <td th:text="${import.timestamp}"></td>
-         <td class="glyphicon glyphicon-eye-open"><a href="www.google.com" alt="view"></td>
+         <td><a th:href="@{/detail}"><span class="glyphicon glyphicon-eye-open" title="view"/></a></td>
      </tr>
      </tbody>
  </table>

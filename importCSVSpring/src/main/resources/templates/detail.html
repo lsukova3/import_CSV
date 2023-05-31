@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Soubor</title>
+    <title>Obsah souboru</title>
   <!--    Pro zajištění správného vykreslování a přiblížení dotykem na mobilu -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--    Include Bootstrap from a CDN stránka getbootstrap.com -->
@@ -27,23 +27,28 @@
   <table class="table table-hover table-striped table-advance">
     <thead>
     <th>Id</th>
+    <th>Index</th>
     <th>User Id</th>
-    <th>Jméno</th>
-    <th>Příjmení</th>
-    <th>Pohlaví</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Sex</th>
     <th>E-mail</th>
-    <th>Telefon</th>
-    <th>Popis pozice</th>
+    <th>Phone</th>
+    <th>Date of Birth</th>
+    <th>Job Title</th>
     <th colspan="2"></th></thead>
     <tbody>
-    <tr th:each="person : ${peopleList}" >
-      <td th:text="${person.id}">...</td>
+    <tr th:each="person : ${personList}" >
+      <td th:text="${person.personId}">...</td>
+      <td th:text="${person.index}">...</td>
       <td th:text="${person.userId}">...</td>
       <td th:text="${person.firstName}">...</td>
       <td th:text="${person.lastName}">...</td>
       <td th:text="${person.sex}">...</td>
       <td th:text="${person.email}">...</td>
+      <td th:text="${person.dateOfBirth}">...</td>
       <td th:text="${person.phone}">...</td>
+
       <td th:text="${person.jobTitle}">...</td>
       <td>
         <button class="btn btn-default disabled" type="button">
@@ -60,52 +65,51 @@
     </tbody>
   </table>
 
-  <nav aria-label="Page navigation example">
-    Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]
-    <br/>
-    <ul class="pagination">
-      <li class="page-item">
-        <a  class="page-link" th:if="${currentPage > 1}" th:href="@{/peoplePaging/page/1}">First</a>
-        <!--      <a th:href="@{'/parameters/countries/page/' + ${currentPage} + '/description?sortDir=' + ${reverseSortDir}}">First</a>-->
-        <span th:unless="${currentPage > 1}">First</span>
-      </li>
+<!--  <nav aria-label="Page navigation example">-->
+<!--    Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]-->
+<!--    <br/>-->
+<!--    <ul class="pagination">-->
+<!--      <li class="page-item">-->
+<!--        <a  class="page-link" th:if="${currentPage > 1}" th:href="@{/peoplePaging/page/1}">First</a>-->
+<!--            <span th:unless="${currentPage > 1}">First</span>-->
+<!--      </li>-->
 
-      <li class="page-item">
-        <a th:if="${currentPage > 1}" th:href="@{'/peoplePaging/page/' + ${currentPage - 1}}">Previous</a>
-        <span th:unless="${currentPage > 1}" >Previous</span>
-      </li>
+<!--      <li class="page-item">-->
+<!--        <a th:if="${currentPage > 1}" th:href="@{'/peoplePaging/page/' + ${currentPage - 1}}">Previous</a>-->
+<!--        <span th:unless="${currentPage > 1}" >Previous</span>-->
+<!--      </li>-->
 
-      <li class="page-item">
-      <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-<!--        <a th:if="${i != currentPage}" th:href="@{'/peoplePaging/page/' + ${i} + '/firstName/asc'}">[[${i}]]</a>-->
-        <a th:if="${i != currentPage}" th:href="@{'/peoplePaging/page/' + ${i}}">[[${i}]]</a>
-        <span th:unless="${i != currentPage}" style="background-color:yellow;">[[${i}]]</span>
-      </span>
-      </li>
+<!--      <li class="page-item">-->
+<!--      <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
+<!--&lt;!&ndash;        <a th:if="${i != currentPage}" th:href="@{'/peoplePaging/page/' + ${i} + '/firstName/asc'}">[[${i}]]</a>&ndash;&gt;-->
+<!--        <a th:if="${i != currentPage}" th:href="@{'/peoplePaging/page/' + ${i}}">[[${i}]]</a>-->
+<!--        <span th:unless="${i != currentPage}" style="background-color:yellow;">[[${i}]]</span>-->
+<!--      </span>-->
+<!--      </li>-->
 
-      <li class="page-item">
-        <a th:if="${currentPage < totalPages}" th:href="@{'/peoplePaging/page/' + ${currentPage + 1}}">Next</a>
-        <span th:unless="${currentPage < totalPages}">Next</span>
-      </li>
+<!--      <li class="page-item">-->
+<!--        <a th:if="${currentPage < totalPages}" th:href="@{'/peoplePaging/page/' + ${currentPage + 1}}">Next</a>-->
+<!--        <span th:unless="${currentPage < totalPages}">Next</span>-->
+<!--      </li>-->
 
-      <li class="page-item">
-        <a th:if="${currentPage < totalPages}" th:href="@{'/peoplePaging/page/' + ${totalPages}}">Last</a>
-        <span th:unless="${currentPage < totalPages}" >Last</span>
-      </li>
-    </ul>
-    <br/>
+<!--      <li class="page-item">-->
+<!--        <a th:if="${currentPage < totalPages}" th:href="@{'/peoplePaging/page/' + ${totalPages}}">Last</a>-->
+<!--        <span th:unless="${currentPage < totalPages}" >Last</span>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--    <br/>-->
 
-  </nav>
-  <form id="f1" th:action="@{'/peoplePaging/page/' + ${currentPage}}">
-    Velikost stránky
-    <select name="SizeOfPage" onchange= "f1.submit()" method="get">
-      <!--    "alert('změna! ' + this.value)">-->
-      <option th:value=5>5</option>
-      <option th:value=10 selected>10</option>
-      <option th:value=15>15</option>
-      <option th:value=20>20</option>
-      <option th:value=${totalItems}>[[${totalItems}]]</option>
-    </select>
-  </form>
+<!--  </nav>-->
+<!--  <form id="f1" th:action="@{'/peoplePaging/page/' + ${currentPage}}">-->
+<!--    Velikost stránky-->
+<!--    <select name="SizeOfPage" onchange= "f1.submit()" method="get">-->
+<!--      &lt;!&ndash;    "alert('změna! ' + this.value)">&ndash;&gt;-->
+<!--      <option th:value=5>5</option>-->
+<!--      <option th:value=10 selected>10</option>-->
+<!--      <option th:value=15>15</option>-->
+<!--      <option th:value=20>20</option>-->
+<!--      <option th:value=${totalItems}>[[${totalItems}]]</option>-->
+<!--    </select>-->
+<!--  </form>-->
 </body>
 </html>

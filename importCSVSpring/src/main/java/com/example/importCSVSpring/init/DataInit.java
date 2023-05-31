@@ -9,6 +9,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
@@ -27,6 +28,10 @@ public class DataInit  implements ApplicationListener<ContextRefreshedEvent> {
      */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        service.initFromDirectory();
+        try {
+            service.initFromDirectory();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
