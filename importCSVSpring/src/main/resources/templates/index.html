@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <!--    Pro zajištění správného vykreslování a přiblížení dotykem na mobilu -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    Include Bootstrap from a CDN stránka getbootstrap.com -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</head>
+<body>
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <h1>Soubory</h1>
+     <form class="form-inline my-2 my-lg-0">
+         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+     </form>
+ </nav>
+ <table class="table table-hover table-striped table-condensed">
+     <thead>
+       <th>Id</th>
+       <th>File</th>
+       <th>Timestamp</th>
+       <th>View</th>
+     </thead>
+     <tbody>
+     <tr th:each="import : ${importList}" >
+         <td th:text="${import.importId}"></td>
+         <td th:text="${import.fileName}"></td>
+         <td th:text="${import.timestamp}"></td>
+         <td class="glyphicon glyphicon-eye-open"><a th:href="www.google.com"></td>
+     </tr>
+     </tbody>
+ </table>
+
+ <div class="text-center p-3">
+     Total Items: [[${totalRows}]]
+ </div>
+</body>
+</html>

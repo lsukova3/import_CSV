@@ -81,7 +81,7 @@ public class Person {
     @NonNull
     @ManyToOne
     @JoinColumn(name="IMPORT_ID", columnDefinition = "NUMBER(18) NOT NULL")
-    private Import anImport;
+    private AnImport anImport;
 
     public Person() {
     }
@@ -177,11 +177,11 @@ public class Person {
     }
 
     @NonNull
-    public Import getAnImport() {
+    public AnImport getAnImport() {
         return anImport;
     }
 
-    public void setAnImport(@NonNull Import anImport) {
+    public void setAnImport(@NonNull AnImport anImport) {
         this.anImport = anImport;
     }
 
