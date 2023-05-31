@@ -1,0 +1,5 @@
+INSERT INTO OSOBA (jmeno, prijmeni, datum_narozeni, plat, pocet_deti, poznamka, castka) VALUES ('Jana', '"Nováková"', TO_DATE('05/05/1960','DD/MM/YYYY'), 60000, 3, 'Málo jí; Málo ''spí''', NULL);
+INSERT INTO OSOBA (jmeno, prijmeni, datum_narozeni, plat, pocet_deti, poznamka, castka) VALUES ('Jan', 'Novák', TO_DATE('06.06.1965 23:59:00','DD.MM.YYYY HH24:MI:SS'), 70000, -2, 'Málo "jí", Málo spí', 10.50);
+INSERT INTO OSOBA (jmeno, prijmeni, datum_narozeni, plat, pocet_deti, poznamka, castka) VALUES ('Petr', 'Novotný', TO_DATE('2001-05-13 23:59:59','YYYY-MM-DD HH24:MI:SS'), '60,000', +1.555555555, 'Málo jí, málo "spí"', 5.50);
+INSERT INTO OSOBA (jmeno, prijmeni, datum_narozeni, plat, pocet_deti, poznamka, castka) VALUES ('Hynek', 'Konečný', TO_DATE('2001/05/13 13:30','YYYY/MM/DD HH24:MI'), '70,000', 0, NULL, 5.50);
+INSERT INTO OSOBA (jmeno, prijmeni, datum_narozeni, plat, pocet_deti, poznamka, castka) VALUES ('Hynek', 'Nekonečný', TO_TIMESTAMP('2001/05/13 13:30:09.123456 PM=','YYYY/MM/DD HH24:MI:SS.FF'), '70,000', 0, NULL, 5.50);
