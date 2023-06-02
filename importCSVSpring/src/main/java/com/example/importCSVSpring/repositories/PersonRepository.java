@@ -3,13 +3,14 @@ package com.example.importCSVSpring.repositories;
 import com.example.importCSVSpring.model.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public interface PersonRepository extends JpaRepository<Person,Long> {
+public interface PersonRepository extends JpaRepository<Person,Long>, PagingAndSortingRepository<Person,Long> {
     @Query(value = "SELECT * " +
             "FROM PERSON p " +
             "WHERE p.import_id = :importId", nativeQuery = true)

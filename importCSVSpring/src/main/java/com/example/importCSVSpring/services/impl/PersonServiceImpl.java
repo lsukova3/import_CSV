@@ -6,6 +6,10 @@ import com.example.importCSVSpring.model.Person;
 import com.example.importCSVSpring.repositories.PersonRepository;
 import com.example.importCSVSpring.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -13,6 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -59,11 +64,11 @@ public class PersonServiceImpl implements PersonService {
         }
     }
 
+    //nestránkovaný
     @Override
     public List<Person> getList() {
         Iterator<Person> iterator;
         iterator = repository.findAll().iterator();
-
 
         List<Person> personList = new ArrayList<>();
         while(iterator.hasNext()){
@@ -72,9 +77,22 @@ public class PersonServiceImpl implements PersonService {
         return personList;
     }
 
+    //stránkovaný
+    @Override
+    public Page<Person> getList(int pageNumber, int pageSize) {
+        List<Person> personList = getList();
+        return new PageImpl<Person>(findPage(personList, pageNumber-1,pageSize), PageRequest.of(pageNumber-1,pageSize), personList.size());
+    }
+
     @Override
     public List<Person> findByImportId(Long idImport) {
         return repository.findByImportId(idImport);
+    }
+
+    @Override
+    public Page<Person> findByImportId(Long idImport, int pageNumber, int pageSize){
+        List<Person> personList = findByImportId(idImport);
+        return new PageImpl<Person>(findPage(findByImportId(idImport), pageNumber-1, pageSize), PageRequest.of(pageNumber-1,pageSize), personList.size());
     }
 
     @Override
@@ -83,9 +101,41 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public Page<Person> findByKeyword(String keyword, int pageNumber, int pageSize) {
+        List<Person> personList = findByKeyword(keyword);
+        return new PageImpl<Person>(findPage(findByKeyword(keyword), pageNumber-1, pageSize), PageRequest.of(pageNumber-1,pageSize),personList.size());
+    }
+
+    @Override
     public List<Person> findByImportIdKeyword(Long idImport, String keyword) {
         return repository.findByImportIdKeyword(idImport, keyword);
     }
 
+    @Override
+    public Page<Person> findByImportIdKeyword(Long idImport, String keyword, int pageNumber, int pageSize){
+        List<Person> personList = findByImportIdKeyword(idImport, keyword);
+        return new PageImpl<Person>(findPage(findByImportIdKeyword(idImport, keyword), pageNumber, pageSize), PageRequest.of(pageNumber, pageSize), personList.size());
+    }
+
+    /**
+     * Vrátí požadovanou stránku ze zadaného seznamu
+     * @param personList seznam
+     * @param pageNumber stránka
+     * @param pageSize velikost stránky
+     * @return seznam záznamů na stránce
+     */
+    private List<Person> findPage(List<Person> personList, int pageNumber, int pageSize){
+        int startItem = pageNumber * pageSize;
+        List<Person> list;
+
+        if (personList.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, personList.size());
+            list = personList.subList(startItem, toIndex);
+        }
+
+        return list;
+    }
 
 }

@@ -11,18 +11,25 @@
 
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+  <link rel="stylesheet" href="css/main.css">
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <h1>[[${fileName}]]</h1>
-    <form class="form-inline my-2 my-lg-0" th:action="@{'/detail/' + ${importId} + '/' + ${fileName}}" method="get">
-      <input id="txtSearch" name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <form th:if="${importId}!=null" class="form-inline my-2 my-lg-0" th:action="@{'/detail/' + ${importId} + '/' + ${fileName}}" method="get">
+      <h1>[[${fileName}]]</h1>
+      <input name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search" /></button>
     </form>
+
+    <form th:unless="${importId}!=null"  class="form-inline my-2 my-lg-0" th:action="@{/detail}" method="get">
+      <h1>Všechny soubory</h1>
+      <input name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search" /></button>
+    </form>
+
   </nav>
   <table class="table table-hover table-striped table-advance">
     <thead>
@@ -36,7 +43,7 @@
     <th>Phone</th>
     <th>Date of Birth</th>
     <th>Job Title</th>
-    <th colspan="2"></th></thead>
+    <th colspan="2">TODO</th></thead>
     <tbody>
     <tr th:each="person : ${personList}" >
       <td th:text="${person.personId}">...</td>
@@ -46,62 +53,55 @@
       <td th:text="${person.lastName}">...</td>
       <td th:text="${person.sex}">...</td>
       <td th:text="${person.email}">...</td>
-      <td th:text="${person.dateOfBirth}">...</td>
       <td th:text="${person.phone}">...</td>
-
+      <td th:text="${person.dateOfBirth}">...</td>
       <td th:text="${person.jobTitle}">...</td>
       <td>
-        <button class="btn btn-default disabled" type="button">
-          <span class="glyphicon glyphicon-eye-open" title="Ukaž záznam"></span>
-        </button>
-        <button class="btn btn-default disabled" type="button">
-          <span class="glyphicon glyphicon-pencil" title="Edituj záznam"></span>
-        </button>
-        <button class="btn btn-default disabled" type="button">
-          <span class="glyphicon glyphicon-trash" title="Vymaž záznam"></span>
-        </button>
+        <a th:href="@{/detail}"><span class="glyphicon glyphicon-eye-open" title="view"/></a>
+        <a th:href="@{/detail}"><span class="glyphicon glyphicon-pencil" title="view"/></a>
+        <a th:href="@{/detail}"><span class="glyphicon glyphicon-trash" title="view"/></a>
       </td>
     </tr>
     </tbody>
   </table>
-  <div class="text-center p-3">
-    Total Items: [[${totalItems}]]
-  </div>
-<!--  <nav aria-label="Page navigation example">-->
-<!--    Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]-->
-<!--    <br/>-->
-<!--    <ul class="pagination">-->
-<!--      <li class="page-item">-->
-<!--        <a  class="page-link" th:if="${currentPage > 1}" th:href="@{/peoplePaging/page/1}">First</a>-->
-<!--            <span th:unless="${currentPage > 1}">First</span>-->
-<!--      </li>-->
+  <nav th:if="${totalPages>1}" aria-label="Page navigation example" class="text-center p-3">
+    <ul class="pagination">
+      <li class="page-item">
+        <a th:if="${currentPage > 1 && importId == null}" th:href="@{'/detail' + '/page/1/' + ${pageSize}}">First</a>
+        <a th:if="${currentPage > 1 && importId != null}" th:href="@{'/detail/' + ${importId} + '/' + ${fileName} + '/page/1/' + ${pageSize}}">First</a>
+        <span th:unless="${currentPage > 1}">First</span>
+      </li>
 
-<!--      <li class="page-item">-->
-<!--        <a th:if="${currentPage > 1}" th:href="@{'/peoplePaging/page/' + ${currentPage - 1}}">Previous</a>-->
-<!--        <span th:unless="${currentPage > 1}" >Previous</span>-->
-<!--      </li>-->
+      <li class="page-item">
+        <a th:if="${currentPage > 1 && importId == null}" th:href="@{'/detail' + '/page/' + ${currentPage-1} + '/' + ${pageSize}}">Previous</a>
+        <a th:if="${currentPage > 1 && importId != null}" th:href="@{'/detail/' + ${importId} + '/' + ${fileName} + '/page/' + ${currentPage-1} + '/' + ${pageSize}}">Previous</a>
+        <span th:unless="${currentPage > 1}" >Previous</span>
+      </li>
 
-<!--      <li class="page-item">-->
-<!--      <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-<!--&lt;!&ndash;        <a th:if="${i != currentPage}" th:href="@{'/peoplePaging/page/' + ${i} + '/firstName/asc'}">[[${i}]]</a>&ndash;&gt;-->
-<!--        <a th:if="${i != currentPage}" th:href="@{'/peoplePaging/page/' + ${i}}">[[${i}]]</a>-->
-<!--        <span th:unless="${i != currentPage}" style="background-color:yellow;">[[${i}]]</span>-->
-<!--      </span>-->
-<!--      </li>-->
+      <li class="page-item">
+      <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+        <a th:if="${i != currentPage && importId == null}" th:href="@{'/detail' + '/page/' + ${i} + '/' + ${pageSize}}">[[${i}]]</a>
+        <a th:if="${i != currentPage && importId != null}" th:href="@{'/detail/' + ${importId} + '/' + ${fileName} + '/page/' + ${i} + '/' + ${pageSize}}">[[${i}]]</a>
+        <span th:unless="${i != currentPage}" style="background-color:yellow;">[[${i}]]</span>
+      </span>
+      </li>
 
-<!--      <li class="page-item">-->
-<!--        <a th:if="${currentPage < totalPages}" th:href="@{'/peoplePaging/page/' + ${currentPage + 1}}">Next</a>-->
-<!--        <span th:unless="${currentPage < totalPages}">Next</span>-->
-<!--      </li>-->
+      <li class="page-item">
+        <a th:if="${currentPage < totalPages && importId == null}" th:href="@{'/detail' + '/page/' + ${currentPage+1} + '/' + ${pageSize}}">Next</a>
+        <a th:if="${currentPage < totalPages && importId != null}" th:href="@{'/detail/' + ${importId} + '/' + ${fileName} + '/page/' + ${currentPage+1} + '/' + ${pageSize}}">Next</a>
+        <span th:unless="${currentPage < totalPages}">Next</span>
+      </li>
 
-<!--      <li class="page-item">-->
-<!--        <a th:if="${currentPage < totalPages}" th:href="@{'/peoplePaging/page/' + ${totalPages}}">Last</a>-->
-<!--        <span th:unless="${currentPage < totalPages}" >Last</span>-->
-<!--      </li>-->
-<!--    </ul>-->
-<!--    <br/>-->
+      <li class="page-item">
+        <a th:if="${currentPage < totalPages && importId == null}" th:href="@{'/detail' + '/page/' + ${totalPages} + '/' + ${pageSize}}">Last</a>
+        <a th:if="${currentPage < totalPages && importId != null}" th:href="@{'/detail/' + ${importId} + '/' + ${fileName} + '/page/' + ${totalPages} + '/' + ${pageSize}}">Last</a>
+        <span th:unless="${currentPage < totalPages}">Last</span>
+      </li>
+    </ul>
+    <br/>
+    Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]
 
-<!--  </nav>-->
+  </nav>
 <!--  <form id="f1" th:action="@{'/peoplePaging/page/' + ${currentPage}}">-->
 <!--    Velikost stránky-->
 <!--    <select name="SizeOfPage" onchange= "f1.submit()" method="get">-->
