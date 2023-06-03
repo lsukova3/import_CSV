@@ -16,13 +16,13 @@ public interface PersonRepository extends JpaRepository<Person,Long>, PagingAndS
             "WHERE p.import_id = :importId", nativeQuery = true)
     public List<Person> findByImportId(@Param("importId") Long importId);
 
-    @Query(value = "SELECT * " +
+    @Query(value = "SELECT p.* " +
             "FROM PERSON p " +
-            "WHERE p.first_name LIKE %:keyword% OR " +
+            "WHERE (p.first_name LIKE %:keyword% OR " +
             "      p.last_name LIKE %:keyword% OR " +
             "      p.email LIKE %:keyword% OR " +
             "      p.phone LIKE %:keyword% OR " +
-            "      p.job_title LIKE %:keyword%", nativeQuery = true)
+            "      p.job_title LIKE %:keyword%)", nativeQuery = true)
     public List<Person> findByKeyword(@Param("keyword") String keyword);
 
     @Query(value = "SELECT * " +

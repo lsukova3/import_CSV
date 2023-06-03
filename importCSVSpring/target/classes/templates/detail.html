@@ -17,22 +17,46 @@
 
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <form th:if="${importId}!=null" class="form-inline my-2 my-lg-0" th:action="@{'/detail/' + ${importId} + '/' + ${fileName}}" method="get">
-      <h1>[[${fileName}]]</h1>
-      <input name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search" /></button>
-    </form>
+  <nav class="container-fluid navbar navbar-light" style="background-color: #e3f2fd;">
+<!--    navbar-fixed-top-->
+    <div role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <span th:if="${importId}!=null" class="navbar-brand">[[${fileName}]]</span>
+          <span th:if="${importId}==null" class="navbar-brand">Všechny soubory</span>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a th:href="@{/index}" class="disabled"><span span class="glyphicon glyphicon-save" title="TODO"></a></li>
+            <li class="active"><a th:href="@{/index}" class="disabled"><span span class="glyphicon glyphicon-refresh" title="TODO"></a></li>
+            <li class="active"><a th:href="@{/index}" class="disabled"><span span class="glyphicon glyphicon-export" title="TODO"></a></li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+            <li class="active"><a th:href="@{/index}"><span span class="glyphicon glyphicon-arrow-right" title="go to index"></a></li>
 
-    <form th:unless="${importId}!=null"  class="form-inline my-2 my-lg-0" th:action="@{/detail}" method="get">
-      <h1>Všechny soubory</h1>
-      <input name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search" /></button>
-    </form>
-
+          </ul>
+        </div>
+      </div>
+    </div>
   </nav>
+
+<!--  <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+
+<!--    <form th:if="${importId}!=null" class="form-inline my-2 my-lg-0" th:action="@{'/detail/' + ${importId} + '/' + ${fileName}}" method="get">-->
+<!--      <h1>[[${fileName}]]</h1>-->
+<!--      <input name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
+<!--      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search" /></button>-->
+<!--    </form>-->
+
+<!--    <form th:unless="${importId}!=null"  class="form-inline my-2 my-lg-0" th:action="@{/detail}" method="get">-->
+<!--      <h1>Všechny soubory</h1>-->
+<!--      <input name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
+<!--      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search" /></button>-->
+<!--    </form>-->
+
+<!--  </nav>-->
   <table class="table table-hover table-striped table-advance">
     <thead>
+    <th th:if="${fileName==null}">File Name</th>
     <th>Id</th>
     <th>Index</th>
     <th>User Id</th>
@@ -46,6 +70,7 @@
     <th colspan="2">TODO</th></thead>
     <tbody>
     <tr th:each="person : ${personList}" >
+      <td  th:if="${fileName==null}" th:text="${person.anImport.getFileName()}">...</td>
       <td th:text="${person.personId}">...</td>
       <td th:text="${person.index}">...</td>
       <td th:text="${person.userId}">...</td>
@@ -57,9 +82,9 @@
       <td th:text="${person.dateOfBirth}">...</td>
       <td th:text="${person.jobTitle}">...</td>
       <td>
-        <a th:href="@{/detail}"><span class="glyphicon glyphicon-eye-open" title="view"/></a>
-        <a th:href="@{/detail}"><span class="glyphicon glyphicon-pencil" title="view"/></a>
-        <a th:href="@{/detail}"><span class="glyphicon glyphicon-trash" title="view"/></a>
+        <a th:href="@{/detail}" class="disabled"><span class="glyphicon glyphicon-eye-open" title="view"/></a>
+        <a th:href="@{/detail}" class="disabled"><span class="glyphicon glyphicon-pencil" title="edit"/></a>
+        <a th:href="@{/detail}" class="disabled"><span class="glyphicon glyphicon-trash" title="delete"/></a>
       </td>
     </tr>
     </tbody>
