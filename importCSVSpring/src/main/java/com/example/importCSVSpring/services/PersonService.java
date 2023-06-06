@@ -78,4 +78,11 @@ public interface PersonService {
      */
     Page<Person> findByImportIdKeyword(Long idImport, String keyword, int pageNumber, int pageSize);
 
+    /**
+     * Najde záznam podle id
+     * @param id id
+     * @return záznam
+     */
+    Person findById(Long id);
+
 }

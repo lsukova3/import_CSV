@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -98,4 +99,10 @@ public class PersonController {
         return "detail";
     }
 
+    @GetMapping("/record/{id}")
+    public String getRecord(Model model, @PathVariable("id") Long id){
+        Person person = personService.findById(id);
+        model.addAttribute("person", person);
+        return "record";
+    }
 }

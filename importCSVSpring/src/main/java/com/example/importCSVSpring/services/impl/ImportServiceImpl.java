@@ -43,6 +43,8 @@ public class ImportServiceImpl implements ImportService {
                 anImport.setTimestamp(Timestamp.from(Instant.now()));
                 anImport.setImportId(repository.save(anImport).getImportId());
                 personService.initFromFile(f.getAbsolutePath(), anImport);
+                //uloží se, zda je person file OK
+                repository.save(anImport).getImportId();
             }
         }
     }

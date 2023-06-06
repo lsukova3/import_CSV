@@ -82,7 +82,7 @@
       <td th:text="${person.dateOfBirth}">...</td>
       <td th:text="${person.jobTitle}">...</td>
       <td>
-        <a th:href="@{/detail}" class="disabled"><span class="glyphicon glyphicon-eye-open" title="view"/></a>
+        <a th:href="@{'/record/' + ${person.personId}}" class="disabled"><span class="glyphicon glyphicon-eye-open" title="view"/></a>
         <a th:href="@{/detail}" class="disabled"><span class="glyphicon glyphicon-pencil" title="edit"/></a>
         <a th:href="@{/detail}" class="disabled"><span class="glyphicon glyphicon-trash" title="delete"/></a>
       </td>

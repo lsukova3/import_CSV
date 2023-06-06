@@ -56,6 +56,13 @@ public class AnImport {
     @OneToMany(mappedBy = "anImport")
     private List<Person> personList = new ArrayList<>();
 
+    /**
+     * true - soubor je bez chyby
+     * false - v souboru je chyba
+     */
+    @NonNull
+    private boolean isOK = false;
+
     public AnImport() {
     }
 
@@ -111,6 +118,14 @@ public class AnImport {
 
     public void setFileSize(@NonNull Long fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public boolean isOK() {
+        return isOK;
+    }
+
+    public void setOK(boolean OK) {
+        isOK = OK;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.example.importCSVSpring.model.AnImport;
 import com.example.importCSVSpring.model.Person;
 import com.example.importCSVSpring.repositories.PersonRepository;
 import com.example.importCSVSpring.services.PersonService;
+import com.example.importCSVSpring.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -12,9 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +31,7 @@ public class PersonServiceImpl implements PersonService {
         try(BufferedReader br = new BufferedReader(new FileReader(fileName))){
             String radek;
             int linenumber = 0;
+            anImport.setOK(true);
             while((radek = br.readLine()) != null){
                 String[] radekSplit = radek.split("\\,");
                 //vynech záhlaví
@@ -52,14 +52,19 @@ public class PersonServiceImpl implements PersonService {
                     p.setJobTitle(radekSplit[8]);
                     p.setAnImport(anImport);
                     repository.save(p);
-
                 }
                 //řádek není prázdný a obsahuje něco jiného než bílé znaky, vyhoď chybu
                 else if(!radek.equals("")&&radek.matches("\\S*")) {
-                    throw new CSVException(fileName, linenumber);
+                    anImport.setOK(false);
+                    FileUtils.writeException(fileName,radek,linenumber);
+
                 }
             }
+            if(!anImport.isOK()){
+                throw new CSVException(fileName);
+            }
         }catch(IOException | CSVException e){
+            anImport.setOK(false);
             System.err.println(e.getMessage());
         }
     }
@@ -117,6 +122,11 @@ public class PersonServiceImpl implements PersonService {
         return new PageImpl<Person>(findPage(findByImportIdKeyword(idImport, keyword), pageNumber, pageSize), PageRequest.of(pageNumber, pageSize), personList.size());
     }
 
+    @Override
+    public Person findById(Long id) {
+        return repository.findById(id).get();
+    }
+
     /**
      * Vrátí požadovanou stránku ze zadaného seznamu
      * @param personList seznam
@@ -137,5 +147,6 @@ public class PersonServiceImpl implements PersonService {
 
         return list;
     }
+
 
 }

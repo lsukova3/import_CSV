@@ -31,6 +31,7 @@
        <th>File</th>
        <th>File Size(bytes)</th>
        <th>Timestamp</th>
+       <th>Bad File</th>
        <th>View</th>
      </thead>
      <tbody>
@@ -40,6 +41,7 @@
          <td th:text="${import.fileName}"></td>
          <td th:text="${import.fileSize}"></td>
          <td th:text="${import.timestamp}"></td>
+         <td th:text="${import.isOK?'':import.fileName.replace('.csv','_bad.csv')}" style="color:red;"></td>
          <td><a th:href="@{'/detail/' + ${import.importId} + '/' + ${import.fileName} + '/page/1/10'} "><span class="glyphicon glyphicon-eye-open" title="view"/></a></td>
      </tr>
      </tbody>
