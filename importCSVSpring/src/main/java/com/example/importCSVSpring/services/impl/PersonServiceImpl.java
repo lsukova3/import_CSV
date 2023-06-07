@@ -127,6 +127,22 @@ public class PersonServiceImpl implements PersonService {
         return repository.findById(id).get();
     }
 
+    @Override
+    public Long add(Person person) {
+        return repository.save(person).getPersonId();
+    }
+
+    @Override
+    public void update(Person person) {
+        repository.save(person);
+        System.out.println(person.toString());
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.delete(repository.findById(id).get());
+    }
+
     /**
      * Vrátí požadovanou stránku ze zadaného seznamu
      * @param personList seznam

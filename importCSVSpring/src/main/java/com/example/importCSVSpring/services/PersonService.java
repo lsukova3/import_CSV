@@ -85,4 +85,23 @@ public interface PersonService {
      */
     Person findById(Long id);
 
+    /**
+     * Uloží nový záznam
+     * @param person záznam
+     * @return id nového záznamu
+     */
+    Long add(Person person);
+
+    /**
+     * Uloží změněné hodnoty záznamu
+     * @param person záznam
+     */
+    void update(Person person);
+
+    /**
+     * Vymaže záznam
+     * @param id id
+     */
+    void delete(Long id);
+
 }

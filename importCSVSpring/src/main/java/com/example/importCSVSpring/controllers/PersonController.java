@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,7 +32,6 @@ public class PersonController {
 
         return "detail";
     }
-
     @GetMapping("/detail/page/{pageNumber}/{pageSize}")
     public String getPageDetail(Model model,
                                 String keyword,
@@ -56,7 +53,6 @@ public class PersonController {
 
         return "detail";
     }
-
     @GetMapping("/detail/{importId}/{fileName}")
     public String getPageDetail(Model model,
                                 @PathVariable("importId") Long importId,
@@ -73,7 +69,6 @@ public class PersonController {
         model.addAttribute("importId", importId);
         return "detail";
     }
-
     @GetMapping("/detail/{importId}/{fileName}/page/{pageNumber}/{pageSize}")
     public String getPageDetail(Model model,
                                 @PathVariable("importId") Long importId,
@@ -98,11 +93,28 @@ public class PersonController {
         model.addAttribute("importId", importId);
         return "detail";
     }
-
-    @GetMapping("/record/{id}")
+    @GetMapping("/view/{id}")
     public String getRecord(Model model, @PathVariable("id") Long id){
         Person person = personService.findById(id);
         model.addAttribute("person", person);
+        model.addAttribute("mode", "view");
         return "record";
+    }
+    @GetMapping("/edit/{id}")
+    public String editRecord(Model model, @PathVariable("id") Long id){
+        Person person = personService.findById(id);
+        model.addAttribute("person", person);
+        model.addAttribute("mode", "edit");
+        return "record";
+    }
+    @PostMapping("/edit")
+    public String editRecord(Model model, @ModelAttribute("person") Person person){
+        personService.update(person);
+        return "redirect:/detail";
+    }
+    @GetMapping("/delete/{id}")
+    public String deleteRecord (Model model, @PathVariable("id") Long id){
+        personService.delete(id);
+        return "redirect:/detail";
     }
 }
