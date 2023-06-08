@@ -38,22 +38,18 @@
       </div>
     </div>
   </nav>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-<!--  <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+    <form th:if="${importId}!=null" class="form-inline my-2 my-lg-0" th:action="@{'/detail/' + ${importId} + '/' + ${fileName}}" method="get">
+      <input name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search" /></button>
+    </form>
 
-<!--    <form th:if="${importId}!=null" class="form-inline my-2 my-lg-0" th:action="@{'/detail/' + ${importId} + '/' + ${fileName}}" method="get">-->
-<!--      <h1>[[${fileName}]]</h1>-->
-<!--      <input name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search" /></button>-->
-<!--    </form>-->
-
-<!--    <form th:unless="${importId}!=null"  class="form-inline my-2 my-lg-0" th:action="@{/detail}" method="get">-->
-<!--      <h1>Všechny soubory</h1>-->
-<!--      <input name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search" /></button>-->
-<!--    </form>-->
-
-<!--  </nav>-->
+    <form th:unless="${importId}!=null"  class="form-inline my-2 my-lg-0" th:action="@{/detail}" method="get">
+      <input name="keyword"  class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search" title="Search" /></button>
+    </form>
+  </nav>
   <table class="table table-hover table-striped table-advance">
     <thead>
     <th th:if="${fileName==null}">File Name</th>
@@ -82,9 +78,11 @@
       <td th:text="${person.dateOfBirth}">...</td>
       <td th:text="${person.jobTitle}">...</td>
       <td>
-        <a th:href="@{'/view/' + ${person.personId}}"><span class="glyphicon glyphicon-eye-open" title="view"/></a>
-        <a th:href="@{'/edit/' + ${person.personId}}"><span class="glyphicon glyphicon-pencil" title="edit"/></a>
-        <a th:href="@{'/delete/' + ${person.personId}}"><span class="glyphicon glyphicon-trash" title="delete"/></a>
+        <a th:href="@{'/detail/view/' + ${person.personId}}"><span class="glyphicon glyphicon-eye-open" title="view"/></a>
+        <a th:if=${importId}==null th:href="@{'/detail/edit/' + ${person.personId}}"><span class="glyphicon glyphicon-pencil" title="edit"/></a>
+        <a th:unless=${importId}==null th:href="@{'/detail/' + ${importId} + '/' + ${fileName} + '/edit/' + ${person.personId}}"><span class="glyphicon glyphicon-pencil" title="edit"/></a>
+        <a th:if=${importId}==null th:href="@{'/detail/delete/' + ${person.personId}}"><span class="glyphicon glyphicon-trash" title="delete"/></a>
+        <a th:unless=${importId}==null th:href="@{'/detail/' + ${importId} + '/' + ${fileName} + '/delete/' + ${person.personId}}"><span class="glyphicon glyphicon-trash" title="delete"/></a>
       </td>
     </tr>
     </tbody>

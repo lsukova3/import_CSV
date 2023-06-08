@@ -93,28 +93,62 @@ public class PersonController {
         model.addAttribute("importId", importId);
         return "detail";
     }
-    @GetMapping("/view/{id}")
+
+    @GetMapping("/detail/view/{id}")
     public String getRecord(Model model, @PathVariable("id") Long id){
         Person person = personService.findById(id);
         model.addAttribute("person", person);
         model.addAttribute("mode", "view");
         return "record";
     }
-    @GetMapping("/edit/{id}")
+
+    @GetMapping("/detail/edit/{id}")
     public String editRecord(Model model, @PathVariable("id") Long id){
         Person person = personService.findById(id);
         model.addAttribute("person", person);
         model.addAttribute("mode", "edit");
         return "record";
     }
-    @PostMapping("/edit")
+    @PostMapping("detail/edit")
     public String editRecord(Model model, @ModelAttribute("person") Person person){
         personService.update(person);
         return "redirect:/detail";
     }
-    @GetMapping("/delete/{id}")
+
+    @GetMapping("/detail/{importId}/{fileName}/edit/{id}")
+    public String editRecord(Model model,
+                             @PathVariable("importId") Long importId,
+                             @PathVariable("fileName") String fileName,
+                             @PathVariable("id") Long id){
+        Person person = personService.findById(id);
+        model.addAttribute("person", person);
+        model.addAttribute("importId", importId);
+        model.addAttribute("fileName", fileName);
+        model.addAttribute("mode", "edit");
+        return "record";
+    }
+    @PostMapping("detail/{importId}/{fileName}/edit")
+    public String editRecord(Model model,
+                             @ModelAttribute("person") Person person,
+                             @PathVariable("importId") Long importId,
+                             @PathVariable("fileName") String fileName){
+        personService.update(person);
+        return "redirect:/detail/" + importId + "/" + fileName;
+    }
+
+    @GetMapping("detail/delete/{id}")
     public String deleteRecord (Model model, @PathVariable("id") Long id){
         personService.delete(id);
+        model.addAttribute("personId", null);
         return "redirect:/detail";
+    }
+
+    @GetMapping("detail/{importId}/{fileName}/delete/{id}")
+    public String deleteRecord (Model model,
+                                @PathVariable("importId") Long importId,
+                                @PathVariable("fileName") String fileName,
+                                @PathVariable("id") Long id){
+        personService.delete(id);
+        return "redirect:/detail/" + importId + "/" + fileName;
     }
 }
